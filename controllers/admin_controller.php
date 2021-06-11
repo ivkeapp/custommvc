@@ -16,17 +16,22 @@ class Admin{
     
     // function for loading all news
     public function index(){
-        // TO-DO
+        $vesti = Vest::dohvatiVesti();       
+        require_once("views/sablon/header_admin.php");
+        require_once("views/adminvesti.php");
+        require_once("views/sablon/footer.php");
     }
     
     public function logout(){
         session_destroy();
-        
+        header("Location: ?controller=gost&akcija=index");
     }
 
     // function for deleting news
     public function obrisivest(){
-        // TO-DO
+        $idvest=$_GET['id'];
+        Vest::obrisiVest($idvest);
+        header("Location: ?controller=admin&akcija=index");
     }
 
 }
