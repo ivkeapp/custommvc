@@ -2,8 +2,7 @@
 // function call for init controller
 // and actions
 function call($controller, $akcija) {
-    // TO-DO
-    // add require for controllers
+    require_once('controllers/' . $controller . '_controller.php');
 
     switch ($controller) {
         case 'gost':
