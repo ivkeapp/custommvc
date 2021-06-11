@@ -20,16 +20,39 @@ class Vest {
     }
     
     public static function dohvatiSve(){
-        // TO-DO
+        $konekcija = DB::getInstanca();
+        $upit = "SELECT * FROM vesti";
+        $rezultat = $konekcija->query($upit);
+        
+        $niz = [];
+        foreach($rezultat->fetchAll() as $red){
+            $niz[] = new Vest($red['id'], $red['naslov'],$red['sadrzaj'],$red['autor'],$red['datum']);
+        }
+        return $niz;
     }
     
     public static function pronadji($ident){
-        // TO-DO
+        $konekcija = DB::getInstanca();
+        $rezultat = $konekcija->prepare("SELECT * FROM vesti WHERE id=:nesto");
+        $rezultat->execute(array('nesto' => $ident));
+        $vest = $rezultat->fetch();
+        return new Vest($vest['id'], $vest['naslov'],
+                $vest['sadrzaj'], $vest['autor'], $vest['datum']);
         
     }
     
     public static function pretrazi($naslov){
-        // TO-DO
+        $konekcija = DB::getInstanca();
+        $rezultat = 
+                $konekcija->prepare("SELECT * FROM vesti "
+                        . "WHERE naslov LIKE :nesto");
+        $rezultat->execute(array('nesto' => "%$naslov%"));
+        $niz = [];
+        foreach($rezultat->fetchAll() as $red){
+            $niz[] = new Vest($red['id'], $red['naslov'],
+                    $red['sadrzaj'],$red['autor'],$red['datum']);
+        }
+        return $niz;
     }
     
 }
