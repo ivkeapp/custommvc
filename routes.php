@@ -7,13 +7,13 @@ function call($controller, $akcija) {
 
     switch ($controller) {
         case 'gost':
-            // TO-DO add Gost.php class
+            $controller = new Gost();
             break;
         case 'korisnik':
-            // TO-DO add Gost.php class
+            $controller = new Korisnik();
             break;
         case 'admin':
-            // TO-DO add Gost.php class
+            $controller = new Admin();
             break;
     }
 
@@ -25,5 +25,13 @@ $controllers = array('gost' => ['index', 'pretraga','autori','login','ulogujse',
                     'korisnik' => ['index', 'pretraga','dodajvest','dodavanjeVesti','logout','mojevesti','izmenivest','menjajvest','obrisivest','prikazivest'],
                     'admin' => ['index', 'logout', 'obrisivest']);
 
-
+if (array_key_exists($controller, $controllers)) {
+    if (in_array($akcija, $controllers[$controller])) {
+        call($controller, $akcija);
+    } else {
+        call('gost', 'greska');
+    }
+} else {
+    call('gost', 'greska');
+}
 ?>
